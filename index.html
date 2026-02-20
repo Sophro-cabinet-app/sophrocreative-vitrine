@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SophroCreative — Sophrologie & Ateliers créatifs</title>
+  <meta name="description" content="SophroCreative : sophrologie et ateliers créatifs pour se recentrer, se détendre et retrouver l’élan." />
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;line-height:1.5;color:#111;background:#fff}
+    header{padding:56px 18px;background:#f6f7fb}
+    .wrap{max-width:980px;margin:0 auto}
+    h1{margin:0 0 10px;font-size:40px}
+    .lead{max-width:720px;font-size:18px;color:#333}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{display:inline-block;padding:12px 16px;border-radius:10px;text-decoration:none}
+    .btn.primary{background:#0b57d0;color:#fff}
+    .btn.ghost{border:1px solid #c8c8c8;color:#111}
+    section{padding:34px 18px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px}
+    .card{border:1px solid #e7e7e7;border-radius:14px;padding:16px;background:#fff}
+    footer{padding:18px;color:#666;border-top:1px solid #eee}
+    .note{font-size:13px;color:#666;margin-top:10px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>SophroCreative</h1>
+      <p class="lead">Sophrologie & ateliers créatifs : une approche douce pour apaiser le mental, relâcher les tensions et retrouver du plaisir à créer.</p>
+      <div class="cta">
+        <a class="btn primary" href="#contact">Me contacter</a>
+        <a class="btn ghost" href="#services">Découvrir les services</a>
+      </div>
+      <p class="note">Espace privé (CRM) réservé : <strong>crm.sophrocreative.fr</strong></p>
+    </div>
+  </header>
+
+  <section id="services">
+    <div class="wrap">
+      <h2>Services</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Sophrologie</h3>
+          <p>Respiration, relaxation dynamique, visualisations positives : des outils concrets pour gérer le stress, améliorer le sommeil et renforcer la confiance.</p>
+          <ul>
+            <li>Séances individuelles</li>
+            <li>Ateliers en petit groupe</li>
+            <li>Programmes thématiques</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Ateliers créatifs</h3>
+          <p>Tricot, crochet, canevas… Des ateliers “détente créative” pour se poser, se recentrer et repartir avec une création.</p>
+          <ul>
+            <li>Niveau débutant à avancé</li>
+            <li>Ateliers découverte</li>
+            <li>Cycles “créa & bien-être”</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Approche SophroCreative</h3>
+          <p>Une combinaison unique : une partie sophro pour se déposer, puis un temps créatif pour ancrer le calme et la joie.</p>
+          <ul>
+            <li>Rituels simples</li>
+            <li>Ambiance bienveillante</li>
+            <li>Objectifs réalistes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <p>Pour une question, une demande de séance ou d’atelier :</p>
+      <ul>
+        <li>Email : <em>à renseigner</em></li>
+        <li>Téléphone : <em>à renseigner</em></li>
+        <li>Zone : <em>Seine-et-Marne / IDF</em></li>
+      </ul>
+      <p class="note">Astuce : vous pouvez remplacer “à renseigner” quand vous voulez.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      © <span id="y"></span> SophroCreative — Tous droits réservés.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
