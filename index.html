@@ -173,9 +173,7 @@
   <section id="reservation">
     <h2>Réserver un atelier</h2>
 
-    <form action="https://formspree.io/f/xrejqnje" method="POST" class="form">
-
-      <input type="hidden" name="_next" value="https://sophrocreative.fr/merci.html">
+    <form action="https://formspree.io/f/xrejqnje" method="POST" class="form" id="formulaire">
 
       <input type="text" name="nom" placeholder="Votre nom" required>
 
@@ -198,6 +196,17 @@
   <footer>
     Les séances ne remplacent aucun suivi médical ou thérapeutique.
   </footer>
+
+  <!-- SCRIPT REDIRECTION GRATUITE -->
+  <script>
+    const form = document.getElementById("formulaire");
+
+    form.addEventListener("submit", function() {
+      setTimeout(function() {
+        window.location.href = "/merci.html";
+      }, 1000);
+    });
+  </script>
 
 </body>
 </html>
