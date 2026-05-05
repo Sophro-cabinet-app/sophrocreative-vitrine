@@ -89,6 +89,33 @@
       color: #7a4f8f;
     }
 
+    .form {
+      max-width: 400px;
+      margin: 40px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form input,
+    .form select,
+    .form textarea {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    .form button {
+      padding: 15px;
+      border: none;
+      border-radius: 30px;
+      background: #7a4f8f;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
     footer {
       padding: 30px 20px;
       font-size: 12px;
@@ -145,7 +172,25 @@
   <!-- SECTION RESERVATION -->
   <section id="reservation">
     <h2>Réserver un atelier</h2>
-    <p>Le formulaire de réservation sera ajouté à la prochaine étape.</p>
+
+    <form action="https://formspree.io/f/xrejqnje" method="POST" class="form">
+
+      <input type="text" name="nom" placeholder="Votre nom" required>
+
+      <input type="email" name="email" placeholder="Votre email" required>
+
+      <select name="atelier" required>
+        <option value="">Choisir un atelier</option>
+        <option>Crochet détente</option>
+        <option>Tricot créatif</option>
+        <option>Canevas zen</option>
+      </select>
+
+      <textarea name="message" placeholder="Votre message (facultatif)"></textarea>
+
+      <button type="submit">Envoyer ma demande</button>
+
+    </form>
   </section>
 
   <footer>
