@@ -39,6 +39,8 @@
       text-decoration: none;
       color: white;
       background: #7a4f8f;
+      border: none;
+      cursor: pointer;
     }
 
     .btn-secondary {
@@ -49,13 +51,8 @@
       padding: 80px 20px;
     }
 
-    section h2 {
-      font-size: 30px;
-      margin-bottom: 20px;
-    }
-
     #ateliers {
-      background: #ffffff;
+      background: white;
     }
 
     #reservation {
@@ -126,34 +123,19 @@
 <h1>Respirez, créez, reconnectez-vous à vous-même</h1>
 
 <p>
-Ateliers de loisirs créatifs associés à des temps de respiration et de détente,
-dans une approche douce et non thérapeutique.
+  Ateliers de loisirs créatifs associés à des temps de respiration et de détente,
+  dans une approche douce et non thérapeutique.
 </p>
 
 <a href="#ateliers" class="btn">Découvrir les ateliers</a>
 <a href="#reservation" class="btn btn-secondary">Réserver</a>
 
 <section id="ateliers">
-  <h2>Nos ateliers créatifs</h2>
+  <h2>Prochains ateliers</h2>
+  <p>Les dates sont mises à jour depuis le tableau ateliers.csv.</p>
 
-  <div class="cards">
-    <div class="card">
-      <h3>Crochet détente</h3>
-      <p>Atelier débutant</p>
-      <strong>2h — 35 €</strong>
-    </div>
-
-    <div class="card">
-      <h3>Tricot créatif</h3>
-      <p>Moment calme et créatif</p>
-      <strong>2h — 35 €</strong>
-    </div>
-
-    <div class="card">
-      <h3>Canevas zen</h3>
-      <p>Relaxation et concentration</p>
-      <strong>2h — 35 €</strong>
-    </div>
+  <div class="cards" id="liste-ateliers">
+    <p>Chargement des ateliers...</p>
   </div>
 </section>
 
@@ -161,30 +143,70 @@ dans une approche douce et non thérapeutique.
   <h2>Réserver un atelier</h2>
 
   <form id="formulaire" class="form">
-
     <input type="text" name="nom" placeholder="Votre nom" required>
-
     <input type="email" name="email" placeholder="Votre email" required>
 
-    <select name="atelier" required>
+    <select name="atelier" id="atelier-select" required>
       <option value="">Choisir un atelier</option>
-      <option>Crochet détente</option>
-      <option>Tricot créatif</option>
-      <option>Canevas zen</option>
     </select>
 
     <textarea name="message" placeholder="Votre message"></textarea>
 
     <button type="submit">Envoyer ma demande</button>
-
   </form>
 </section>
 
 <footer>
-  Les séances ne remplacent aucun suivi médical.
+  Les séances ne remplacent aucun suivi médical, psychologique ou thérapeutique.
 </footer>
 
 <script>
+  async function chargerAteliers() {
+    const container = document.getElementById("liste-ateliers");
+    const select = document.getElementById("atelier-select");
+
+    try {
+      const response = await fetch("ateliers.csv");
+      const text = await response.text();
+
+      const lignes = text.trim().split("\n").slice(1);
+      container.innerHTML = "";
+
+      lignes.forEach(ligne => {
+        const [titre, date, heure, duree, prix, places, statut] = ligne.split(",");
+
+        if (!titre) return;
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>${titre}</h3>
+          <p>📅 ${date}</p>
+          <p>🕒 ${heure}</p>
+          <p>${duree} — ${prix}</p>
+          <p>Places : ${places}</p>
+          <p><strong>${statut}</strong></p>
+          <a href="#reservation" class="btn" onclick="choisirAtelier('${titre} - ${date} ${heure}')">Réserver</a>
+        `;
+
+        container.appendChild(card);
+
+        const option = document.createElement("option");
+        option.value = `${titre} - ${date} ${heure}`;
+        option.textContent = `${titre} - ${date} ${heure}`;
+        select.appendChild(option);
+      });
+
+    } catch (error) {
+      container.innerHTML = "<p>Les ateliers seront bientôt disponibles.</p>";
+    }
+  }
+
+  function choisirAtelier(valeur) {
+    document.getElementById("atelier-select").value = valeur;
+  }
+
   const form = document.getElementById("formulaire");
 
   form.addEventListener("submit", async function(event) {
@@ -192,25 +214,22 @@ dans une approche douce et non thérapeutique.
 
     const data = new FormData(form);
 
-    try {
-      const response = await fetch("https://formspree.io/f/xrejqnje", {
-        method: "POST",
-        body: data,
-        headers: {
-          "Accept": "application/json"
-        }
-      });
-
-      if (response.ok) {
-        window.location.href = "/merci.html";
-      } else {
-        alert("Erreur lors de l'envoi. Réessayez.");
+    const response = await fetch("https://formspree.io/f/xrejqnje", {
+      method: "POST",
+      body: data,
+      headers: {
+        "Accept": "application/json"
       }
+    });
 
-    } catch (error) {
-      alert("Erreur réseau.");
+    if (response.ok) {
+      window.location.href = "/merci.html";
+    } else {
+      alert("Erreur lors de l'envoi. Merci de réessayer.");
     }
   });
+
+  chargerAteliers();
 </script>
 
 </body>
