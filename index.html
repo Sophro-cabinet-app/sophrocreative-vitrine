@@ -50,7 +50,7 @@
     }
 
     section h2 {
-      font-size: 28px;
+      font-size: 30px;
       margin-bottom: 20px;
     }
 
@@ -67,6 +67,26 @@
 
     #reservation {
       background: #f4efe8;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: #fbf8f4;
+      border-radius: 20px;
+      padding: 30px;
+      width: 260px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      color: #7a4f8f;
     }
 
     footer {
@@ -94,19 +114,38 @@
   <a href="#ateliers" class="btn">Découvrir les ateliers</a>
   <a href="#reservation" class="btn btn-secondary">Réserver</a>
 
+  <!-- SECTION ATELIERS -->
   <section id="ateliers">
     <h2>Nos ateliers créatifs</h2>
-    <p>
-      Découvrez prochainement nos ateliers de crochet, tricot, canevas
-      et carnet créatif.
-    </p>
+    <p>Choisissez une parenthèse créative selon votre envie du moment.</p>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>Crochet détente</h3>
+        <p>Atelier débutant pour apprendre les bases en douceur.</p>
+        <strong>2h — 35 €</strong>
+      </div>
+
+      <div class="card">
+        <h3>Tricot créatif</h3>
+        <p>Un moment calme pour créer et se détendre.</p>
+        <strong>2h — 35 €</strong>
+      </div>
+
+      <div class="card">
+        <h3>Canevas zen</h3>
+        <p>Une activité apaisante pour se recentrer.</p>
+        <strong>2h — 35 €</strong>
+      </div>
+
+    </div>
   </section>
 
+  <!-- SECTION RESERVATION -->
   <section id="reservation">
     <h2>Réserver un atelier</h2>
-    <p>
-      Le formulaire de réservation sera ajouté à la prochaine étape.
-    </p>
+    <p>Le formulaire de réservation sera ajouté à la prochaine étape.</p>
   </section>
 
   <footer>
