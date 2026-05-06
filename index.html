@@ -20,26 +20,41 @@ header {
   border-bottom: 1px solid #eee;
 }
 
-header h2 {
-  margin: 0;
-  font-size: 30px;
-  color: #7a4f8f;
+.logo-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-header .infos {
-  margin-top: 8px;
-  color: #777;
+.logo-svg {
+  width: 110px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.logo-title {
+  margin: 0;
+  font-size: 31px;
+  color: #7a4f8f;
+  letter-spacing: 0.5px;
+}
+
+.logo-subtitle {
+  margin-top: 6px;
+  color: #6f8f72;
   font-size: 15px;
 }
 
-.hero {
-  padding: 90px 20px;
-  background: linear-gradient(135deg, #fbf8f4, #efe3f4, #edf5ea);
+.logo-contact {
+  margin-top: 6px;
+  color: #777;
+  font-size: 14px;
 }
 
-.hero .lotus {
-  font-size: 55px;
-  margin-bottom: 15px;
+.hero {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #fbf8f4, #efe3f4, #edf5ea);
 }
 
 h1 {
@@ -49,10 +64,11 @@ h1 {
   line-height: 1.2;
 }
 
-.hero p {
-  font-size: 20px;
-  max-width: 750px;
-  margin: auto;
+.hero p,
+section p {
+  max-width: 760px;
+  margin: 18px auto;
+  font-size: 18px;
   line-height: 1.7;
 }
 
@@ -81,13 +97,6 @@ section h2 {
   font-size: 34px;
   margin-bottom: 20px;
   color: #4a3155;
-}
-
-section p {
-  max-width: 760px;
-  margin: 18px auto;
-  font-size: 18px;
-  line-height: 1.7;
 }
 
 #sophrologie,
@@ -121,13 +130,13 @@ section p {
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
+.card {
+  background: #fbf8f4;
+}
+
 .benefice h3,
 .card h3 {
   color: #7a4f8f;
-}
-
-.card {
-  background: #fbf8f4;
 }
 
 .form {
@@ -178,7 +187,7 @@ footer {
   }
 
   .hero {
-    padding: 65px 20px;
+    padding: 60px 20px;
   }
 }
 </style>
@@ -187,12 +196,28 @@ footer {
 <body>
 
 <header>
-  <h2>Sophro-Créative</h2>
-  <div class="infos">de Vicentica LAY — 06 62 59 86 85</div>
+  <div class="logo-block">
+
+    <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="88" fill="#fbf8f4" stroke="#d8c4df" stroke-width="4"/>
+      <path d="M100 38 C82 66, 82 98, 100 126 C118 98, 118 66, 100 38Z" fill="#7a4f8f" opacity="0.95"/>
+      <path d="M64 70 C45 95, 58 126, 100 142 C78 115, 77 89, 64 70Z" fill="#b892c7"/>
+      <path d="M136 70 C155 95, 142 126, 100 142 C122 115, 123 89, 136 70Z" fill="#b892c7"/>
+      <path d="M48 105 C60 134, 82 151, 100 156 C79 157, 55 146, 38 123Z" fill="#6f8f72" opacity="0.9"/>
+      <path d="M152 105 C140 134, 118 151, 100 156 C121 157, 145 146, 162 123Z" fill="#6f8f72" opacity="0.9"/>
+      <ellipse cx="100" cy="160" rx="46" ry="10" fill="#6f8f72" opacity="0.35"/>
+      <path d="M67 45 C44 63, 32 87, 33 113" fill="none" stroke="#d8c4df" stroke-width="3" stroke-linecap="round"/>
+      <path d="M133 45 C156 63, 168 87, 167 113" fill="none" stroke="#d8c4df" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+
+    <h2 class="logo-title">Sophro-Créative</h2>
+    <div class="logo-subtitle">Loisirs créatifs & sophrologie non thérapeutique</div>
+    <div class="logo-contact">de Vicentica LAY — 06 62 59 86 85</div>
+
+  </div>
 </header>
 
 <section class="hero">
-  <div class="lotus">🪷</div>
   <h1>Respirez, créez, reconnectez-vous à vous-même</h1>
 
   <p>
