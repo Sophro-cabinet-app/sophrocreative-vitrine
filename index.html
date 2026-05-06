@@ -132,7 +132,7 @@
 
 <section id="ateliers">
   <h2>Prochains ateliers</h2>
-  <p>Les dates sont mises à jour depuis le tableau ateliers.csv.</p>
+  <p>Les dates sont mises à jour automatiquement depuis votre tableau.</p>
 
   <div class="cards" id="liste-ateliers">
     <p>Chargement des ateliers...</p>
@@ -173,9 +173,19 @@
       container.innerHTML = "";
 
       lignes.forEach(ligne => {
-        const [titre, date, heure, duree, prix, places, statut] = ligne.split(",");
+        const colonnes = ligne.split(",");
+
+        const titre = colonnes[0];
+        const date = colonnes[1];
+        const heure = colonnes[2];
+        const duree = colonnes[3];
+        const prix = colonnes[4];
+        const places = colonnes[5];
+        const statut = colonnes[6];
 
         if (!titre) return;
+
+        const atelierComplet = `${titre} - ${date} ${heure}`;
 
         const card = document.createElement("div");
         card.className = "card";
@@ -187,14 +197,14 @@
           <p>${duree} — ${prix}</p>
           <p>Places : ${places}</p>
           <p><strong>${statut}</strong></p>
-          <a href="#reservation" class="btn" onclick="choisirAtelier('${titre} - ${date} ${heure}')">Réserver</a>
+          <a href="#reservation" class="btn" onclick="choisirAtelier('${atelierComplet}')">Réserver</a>
         `;
 
         container.appendChild(card);
 
         const option = document.createElement("option");
-        option.value = `${titre} - ${date} ${heure}`;
-        option.textContent = `${titre} - ${date} ${heure}`;
+        option.value = atelierComplet;
+        option.textContent = atelierComplet;
         select.appendChild(option);
       });
 
@@ -214,18 +224,23 @@
 
     const data = new FormData(form);
 
-    const response = await fetch("https://formspree.io/f/xrejqnje", {
-      method: "POST",
-      body: data,
-      headers: {
-        "Accept": "application/json"
-      }
-    });
+    try {
+      const response = await fetch("https://formspree.io/f/xrejqnje", {
+        method: "POST",
+        body: data,
+        headers: {
+          "Accept": "application/json"
+        }
+      });
 
-    if (response.ok) {
-      window.location.href = "/merci.html";
-    } else {
-      alert("Erreur lors de l'envoi. Merci de réessayer.");
+      if (response.ok) {
+        window.location.href = "/merci.html";
+      } else {
+        alert("Erreur lors de l'envoi. Merci de réessayer.");
+      }
+
+    } catch (error) {
+      alert("Erreur réseau. Merci de réessayer.");
     }
   });
 
