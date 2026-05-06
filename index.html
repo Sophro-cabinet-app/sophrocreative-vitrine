@@ -106,6 +106,11 @@
       cursor: pointer;
     }
 
+    .form button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
     footer {
       padding: 30px 20px;
       font-size: 12px;
@@ -132,7 +137,7 @@
 
 <section id="ateliers">
   <h2>Prochains ateliers</h2>
-  <p>Les dates sont mises à jour automatiquement.</p>
+  <p>Les ateliers complets sont automatiquement masqués.</p>
 
   <div class="cards" id="liste-ateliers">
     <p>Chargement des ateliers...</p>
@@ -146,13 +151,17 @@
     <input type="text" name="nom" placeholder="Votre nom" required>
     <input type="email" name="email" placeholder="Votre email" required>
 
-    <select name="atelier" id="atelier-select" required>
+    <select id="atelier-select" required>
       <option value="">Choisir un atelier</option>
     </select>
 
+    <input type="hidden" name="titre" id="champ-titre">
+    <input type="hidden" name="date" id="champ-date">
+    <input type="hidden" name="heure" id="champ-heure">
+
     <textarea name="message" placeholder="Votre message"></textarea>
 
-    <button type="submit">Envoyer ma demande</button>
+    <button type="submit" id="bouton-submit">Envoyer ma demande</button>
   </form>
 </section>
 
@@ -161,31 +170,83 @@
 </footer>
 
 <script>
+  const GOOGLE_SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmNkw2reOyMDxMTF0tav6yKvWbXupCobHVmls-w-0S7qMVd_DKiNM4ve1jVKb3qgEfWlsvKkpDqbT3/pub?output=csv";
+
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDm182MBH1Cd7YXAsGXjUTNtAUWFfruXVMsjtxs4013mCLv8q-vs1V-WHmvXn1bVT_Rw/exec";
+
+  function parseCSV(text) {
+    const lignes = [];
+    let ligne = [];
+    let valeur = "";
+    let entreGuillemets = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      const next = text[i + 1];
+
+      if (char === '"' && entreGuillemets && next === '"') {
+        valeur += '"';
+        i++;
+      } else if (char === '"') {
+        entreGuillemets = !entreGuillemets;
+      } else if (char === "," && !entreGuillemets) {
+        ligne.push(valeur);
+        valeur = "";
+      } else if ((char === "\n" || char === "\r") && !entreGuillemets) {
+        if (valeur || ligne.length) {
+          ligne.push(valeur);
+          lignes.push(ligne);
+          ligne = [];
+          valeur = "";
+        }
+      } else {
+        valeur += char;
+      }
+    }
+
+    if (valeur || ligne.length) {
+      ligne.push(valeur);
+      lignes.push(ligne);
+    }
+
+    return lignes;
+  }
+
   async function chargerAteliers() {
     const container = document.getElementById("liste-ateliers");
     const select = document.getElementById("atelier-select");
 
     try {
-      const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vSmNkw2reOyMDxMTF0tav6yKvWbXupCobHVmls-w-0S7qMVd_DKiNM4ve1jVKb3qgEfWlsvKkpDqbT3/pub?output=csv");
+      const response = await fetch(GOOGLE_SHEET_CSV);
       const text = await response.text();
 
-      const lignes = text.trim().split("\n").slice(1);
+      const lignes = parseCSV(text);
+      const data = lignes.slice(1);
+
       container.innerHTML = "";
+      select.innerHTML = '<option value="">Choisir un atelier</option>';
 
-      lignes.forEach(ligne => {
-        const colonnes = ligne.split(",");
+      let ateliersDisponibles = 0;
 
-        const titre = colonnes[0];
-        const date = colonnes[1];
-        const heure = colonnes[2];
-        const duree = colonnes[3];
-        const prix = colonnes[4];
-        const places = colonnes[5];
-        const statut = colonnes[6];
+      data.forEach(colonnes => {
+        const titre = colonnes[0]?.trim();
+        const date = colonnes[1]?.trim();
+        const heure = colonnes[2]?.trim();
+        const duree = colonnes[3]?.trim();
+        const prix = colonnes[4]?.trim();
+        const places = colonnes[5]?.trim();
+        const statut = colonnes[6]?.trim();
 
         if (!titre) return;
 
-        const atelierComplet = `${titre} - ${date} ${heure}`;
+        const placesRestantes = parseInt(places, 10);
+
+        if (statut && statut.toLowerCase() === "complet") return;
+        if (!placesRestantes || placesRestantes <= 0) return;
+
+        ateliersDisponibles++;
+
+        const valeur = `${titre}|||${date}|||${heure}`;
 
         const card = document.createElement("div");
         card.className = "card";
@@ -195,18 +256,21 @@
           <p>📅 ${date}</p>
           <p>🕒 ${heure}</p>
           <p>${duree} — ${prix}</p>
-          <p>Places : ${places}</p>
-          <p><strong>${statut}</strong></p>
-          <a href="#reservation" class="btn" onclick="choisirAtelier('${atelierComplet}')">Réserver</a>
+          <p>Places restantes : ${placesRestantes}</p>
+          <a href="#reservation" class="btn" onclick="choisirAtelier('${valeur}')">Réserver</a>
         `;
 
         container.appendChild(card);
 
         const option = document.createElement("option");
-        option.value = atelierComplet;
-        option.textContent = atelierComplet;
+        option.value = valeur;
+        option.textContent = `${titre} - ${date} ${heure}`;
         select.appendChild(option);
       });
+
+      if (ateliersDisponibles === 0) {
+        container.innerHTML = "<p>Aucun atelier disponible pour le moment.</p>";
+      }
 
     } catch (error) {
       container.innerHTML = "<p>Les ateliers seront bientôt disponibles.</p>";
@@ -214,33 +278,47 @@
   }
 
   function choisirAtelier(valeur) {
-    document.getElementById("atelier-select").value = valeur;
+    const select = document.getElementById("atelier-select");
+    select.value = valeur;
+    remplirChampsAtelier(valeur);
   }
 
+  function remplirChampsAtelier(valeur) {
+    const morceaux = valeur.split("|||");
+
+    document.getElementById("champ-titre").value = morceaux[0] || "";
+    document.getElementById("champ-date").value = morceaux[1] || "";
+    document.getElementById("champ-heure").value = morceaux[2] || "";
+  }
+
+  document.getElementById("atelier-select").addEventListener("change", function() {
+    remplirChampsAtelier(this.value);
+  });
+
   const form = document.getElementById("formulaire");
+  const bouton = document.getElementById("bouton-submit");
 
   form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
+    bouton.disabled = true;
+    bouton.textContent = "Envoi en cours...";
+
     const data = new FormData(form);
 
     try {
-      const response = await fetch("https://formspree.io/f/xrejqnje", {
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         body: data,
-        headers: {
-          "Accept": "application/json"
-        }
+        mode: "no-cors"
       });
 
-      if (response.ok) {
-        window.location.href = "/merci.html";
-      } else {
-        alert("Erreur lors de l'envoi. Merci de réessayer.");
-      }
+      window.location.href = "/merci.html";
 
     } catch (error) {
       alert("Erreur réseau. Merci de réessayer.");
+      bouton.disabled = false;
+      bouton.textContent = "Envoyer ma demande";
     }
   });
 
