@@ -1,136 +1,117 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Sophro-Créative</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sophro-Créative</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #fbf8f4;
-      color: #3b2d3f;
-      text-align: center;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fbf8f4;
+  color: #3b2d3f;
+  text-align: center;
+}
 
-    header {
-      padding: 20px;
-      background: white;
-      border-bottom: 1px solid #eee;
-    }
+header {
+  padding: 20px;
+  background: white;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
 
-    header h2 {
-      margin: 0;
-    }
+header h2 {
+  margin: 0;
+}
 
-    header p {
-      margin: 5px 0 0;
-      font-size: 14px;
-      color: #777;
-    }
+header p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #777;
+}
 
-    h1 {
-      font-size: 40px;
-      margin-top: 60px;
-    }
+h1 {
+  font-size: 38px;
+  margin-top: 50px;
+}
 
-    p {
-      font-size: 18px;
-      max-width: 600px;
-      margin: 20px auto;
-    }
+p {
+  max-width: 650px;
+  margin: 20px auto;
+  font-size: 18px;
+}
 
-    .btn {
-      display: inline-block;
-      margin: 15px;
-      padding: 15px 25px;
-      border-radius: 30px;
-      text-decoration: none;
-      color: white;
-      background: #7a4f8f;
-      border: none;
-      cursor: pointer;
-    }
+.btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 15px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  color: white;
+  background: #7a4f8f;
+}
 
-    .btn-secondary {
-      background: #6f8f72;
-    }
+.btn-secondary {
+  background: #6f8f72;
+}
 
-    section {
-      padding: 80px 20px;
-    }
+section {
+  padding: 80px 20px;
+}
 
-    #sophrologie {
-      background: #f4efe8;
-    }
+#sophrologie {
+  background: #f4efe8;
+}
 
-    #sophrologie p {
-      max-width: 750px;
-      line-height: 1.7;
-    }
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
 
-    #ateliers {
-      background: white;
-    }
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  width: 250px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
 
-    #reservation {
-      background: #f4efe8;
-    }
+.card h3 {
+  color: #7a4f8f;
+}
 
-    .cards {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
+.form {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-    .card {
-      background: #fbf8f4;
-      border-radius: 20px;
-      padding: 30px;
-      width: 260px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
+input, select, textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
 
-    .card h3 {
-      color: #7a4f8f;
-    }
+button {
+  padding: 15px;
+  border-radius: 30px;
+  border: none;
+  background: #7a4f8f;
+  color: white;
+  cursor: pointer;
+}
 
-    .form {
-      max-width: 400px;
-      margin: 40px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .form input,
-    .form select,
-    .form textarea {
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-    }
-
-    .form button {
-      padding: 15px;
-      border: none;
-      border-radius: 30px;
-      background: #7a4f8f;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    footer {
-      padding: 30px 20px;
-      font-size: 12px;
-      color: #777;
-    }
-  </style>
+footer {
+  padding: 30px;
+  font-size: 12px;
+  color: #777;
+}
+</style>
 </head>
 
 <body>
@@ -143,50 +124,31 @@
 <h1>Respirez, créez, reconnectez-vous à vous-même</h1>
 
 <p>
-  Ateliers de loisirs créatifs associés à des temps de respiration et de détente,
-  dans une approche douce et non thérapeutique.
+Ateliers de loisirs créatifs associés à des temps de respiration et de détente,
+dans une approche douce et non thérapeutique.
 </p>
 
 <a href="#ateliers" class="btn">Découvrir les ateliers</a>
 <a href="#reservation" class="btn btn-secondary">Réserver</a>
 
-<!-- SECTION SOPHROLOGIE -->
 <section id="sophrologie">
   <h2>Sophrologie créative non thérapeutique</h2>
-
   <p>
-    La sophrologie créative proposée par Sophro-Créative accompagne les ateliers
-    de loisirs créatifs par de courts temps de respiration, de détente corporelle
-    et de visualisation positive.
+  La sophrologie créative accompagne les ateliers par des temps de respiration,
+  de détente et de visualisation, favorisant calme et créativité.
   </p>
-
   <p>
-    L’objectif est de favoriser un moment de calme, de présence à soi et de
-    créativité, sans recherche de performance ni obligation de résultat.
-  </p>
-
-  <p>
-    Cette approche ne constitue pas un acte médical, psychologique ou thérapeutique.
-    Elle ne remplace aucun diagnostic, traitement, suivi médical ou accompagnement
-    par un professionnel de santé.
-  </p>
-
-  <p>
-    Chaque participante reste libre de vivre l’atelier à son rythme, dans un cadre
-    bienveillant, simple et accessible.
+  Cette approche est non thérapeutique et ne remplace aucun suivi médical.
   </p>
 </section>
 
-<!-- ATELIERS -->
 <section id="ateliers">
   <h2>Prochains ateliers</h2>
-
   <div class="cards" id="liste-ateliers">
-    <p>Chargement des ateliers...</p>
+    Chargement des ateliers...
   </div>
 </section>
 
-<!-- RESERVATION -->
 <section id="reservation">
   <h2>Réserver un atelier</h2>
 
@@ -194,9 +156,7 @@
     <input type="text" name="nom" placeholder="Votre nom" required>
     <input type="email" name="email" placeholder="Votre email" required>
 
-    <select id="atelier-select" required>
-      <option value="">Choisir un atelier</option>
-    </select>
+    <select id="atelier-select" required></select>
 
     <input type="hidden" name="titre" id="champ-titre">
     <input type="hidden" name="date" id="champ-date">
@@ -204,13 +164,84 @@
 
     <textarea name="message" placeholder="Votre message"></textarea>
 
-    <button type="submit">Envoyer ma demande</button>
+    <button type="submit">Réserver</button>
   </form>
 </section>
 
 <footer>
-  Les séances ne remplacent aucun suivi médical, psychologique ou thérapeutique.
+Les séances ne remplacent aucun suivi médical ou thérapeutique.
 </footer>
+
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmNkw2reOyMDxMTF0tav6yKvWbXupCobHVmls-w-0S7qMVd_DKiNM4ve1jVKb3qgEfWlsvKkpDqbT3/pub?output=csv";
+
+function parseCSV(text) {
+  return text.trim().split("\n").map(row => row.split(","));
+}
+
+async function chargerAteliers() {
+  const res = await fetch(CSV_URL);
+  const text = await res.text();
+  const rows = parseCSV(text).slice(1);
+
+  const container = document.getElementById("liste-ateliers");
+  const select = document.getElementById("atelier-select");
+
+  container.innerHTML = "";
+  select.innerHTML = '<option value="">Choisir un atelier</option>';
+
+  rows.forEach(r => {
+    const [titre, date, heure, duree, prix, places, statut] = r;
+
+    if (statut === "complet" || places <= 0) return;
+
+    const val = `${titre}|${date}|${heure}`;
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${titre}</h3>
+      <p>${date}</p>
+      <p>${heure}</p>
+      <p>${duree} - ${prix}</p>
+      <p>Places : ${places}</p>
+      <a href="#reservation" class="btn" onclick="selectAtelier('${val}')">Réserver</a>
+    `;
+    container.appendChild(card);
+
+    const opt = document.createElement("option");
+    opt.value = val;
+    opt.textContent = `${titre} - ${date} ${heure}`;
+    select.appendChild(opt);
+  });
+}
+
+function selectAtelier(val) {
+  document.getElementById("atelier-select").value = val;
+}
+
+document.getElementById("formulaire").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const val = document.getElementById("atelier-select").value.split("|");
+
+  document.getElementById("champ-titre").value = val[0];
+  document.getElementById("champ-date").value = val[1];
+  document.getElementById("champ-heure").value = val[2];
+
+  const data = new FormData(this);
+
+  await fetch("https://script.google.com/macros/s/AKfycbyDm182MBH1Cd7YXAsGXjUTNtAUWFfruXVMsjtxs4013mCLv8q-vs1V-WHmvXn1bVT_Rw/exec", {
+    method: "POST",
+    body: data
+  });
+
+  alert("Réservation envoyée !");
+  this.reset();
+});
+
+chargerAteliers();
+</script>
 
 </body>
 </html>
