@@ -20,6 +20,16 @@
       border-bottom: 1px solid #eee;
     }
 
+    header h2 {
+      margin: 0;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #777;
+    }
+
     h1 {
       font-size: 40px;
       margin-top: 60px;
@@ -49,6 +59,15 @@
 
     section {
       padding: 80px 20px;
+    }
+
+    #sophrologie {
+      background: #f4efe8;
+    }
+
+    #sophrologie p {
+      max-width: 750px;
+      line-height: 1.7;
     }
 
     #ateliers {
@@ -106,11 +125,6 @@
       cursor: pointer;
     }
 
-    .form button:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
-
     footer {
       padding: 30px 20px;
       font-size: 12px;
@@ -123,6 +137,7 @@
 
 <header>
   <h2>Sophro-Créative</h2>
+  <p>de Vicentica LAY — 06 62 59 86 85</p>
 </header>
 
 <h1>Respirez, créez, reconnectez-vous à vous-même</h1>
@@ -135,15 +150,43 @@
 <a href="#ateliers" class="btn">Découvrir les ateliers</a>
 <a href="#reservation" class="btn btn-secondary">Réserver</a>
 
+<!-- SECTION SOPHROLOGIE -->
+<section id="sophrologie">
+  <h2>Sophrologie créative non thérapeutique</h2>
+
+  <p>
+    La sophrologie créative proposée par Sophro-Créative accompagne les ateliers
+    de loisirs créatifs par de courts temps de respiration, de détente corporelle
+    et de visualisation positive.
+  </p>
+
+  <p>
+    L’objectif est de favoriser un moment de calme, de présence à soi et de
+    créativité, sans recherche de performance ni obligation de résultat.
+  </p>
+
+  <p>
+    Cette approche ne constitue pas un acte médical, psychologique ou thérapeutique.
+    Elle ne remplace aucun diagnostic, traitement, suivi médical ou accompagnement
+    par un professionnel de santé.
+  </p>
+
+  <p>
+    Chaque participante reste libre de vivre l’atelier à son rythme, dans un cadre
+    bienveillant, simple et accessible.
+  </p>
+</section>
+
+<!-- ATELIERS -->
 <section id="ateliers">
   <h2>Prochains ateliers</h2>
-  <p>Les ateliers complets sont automatiquement masqués.</p>
 
   <div class="cards" id="liste-ateliers">
     <p>Chargement des ateliers...</p>
   </div>
 </section>
 
+<!-- RESERVATION -->
 <section id="reservation">
   <h2>Réserver un atelier</h2>
 
@@ -161,169 +204,13 @@
 
     <textarea name="message" placeholder="Votre message"></textarea>
 
-    <button type="submit" id="bouton-submit">Envoyer ma demande</button>
+    <button type="submit">Envoyer ma demande</button>
   </form>
 </section>
 
 <footer>
   Les séances ne remplacent aucun suivi médical, psychologique ou thérapeutique.
 </footer>
-
-<script>
-  const GOOGLE_SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmNkw2reOyMDxMTF0tav6yKvWbXupCobHVmls-w-0S7qMVd_DKiNM4ve1jVKb3qgEfWlsvKkpDqbT3/pub?output=csv";
-
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDm182MBH1Cd7YXAsGXjUTNtAUWFfruXVMsjtxs4013mCLv8q-vs1V-WHmvXn1bVT_Rw/exec";
-
-  function parseCSV(text) {
-    const lignes = [];
-    let ligne = [];
-    let valeur = "";
-    let entreGuillemets = false;
-
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
-      const next = text[i + 1];
-
-      if (char === '"' && entreGuillemets && next === '"') {
-        valeur += '"';
-        i++;
-      } else if (char === '"') {
-        entreGuillemets = !entreGuillemets;
-      } else if (char === "," && !entreGuillemets) {
-        ligne.push(valeur);
-        valeur = "";
-      } else if ((char === "\n" || char === "\r") && !entreGuillemets) {
-        if (valeur || ligne.length) {
-          ligne.push(valeur);
-          lignes.push(ligne);
-          ligne = [];
-          valeur = "";
-        }
-      } else {
-        valeur += char;
-      }
-    }
-
-    if (valeur || ligne.length) {
-      ligne.push(valeur);
-      lignes.push(ligne);
-    }
-
-    return lignes;
-  }
-
-  async function chargerAteliers() {
-    const container = document.getElementById("liste-ateliers");
-    const select = document.getElementById("atelier-select");
-
-    try {
-      const response = await fetch(GOOGLE_SHEET_CSV);
-      const text = await response.text();
-
-      const lignes = parseCSV(text);
-      const data = lignes.slice(1);
-
-      container.innerHTML = "";
-      select.innerHTML = '<option value="">Choisir un atelier</option>';
-
-      let ateliersDisponibles = 0;
-
-      data.forEach(colonnes => {
-        const titre = colonnes[0]?.trim();
-        const date = colonnes[1]?.trim();
-        const heure = colonnes[2]?.trim();
-        const duree = colonnes[3]?.trim();
-        const prix = colonnes[4]?.trim();
-        const places = colonnes[5]?.trim();
-        const statut = colonnes[6]?.trim();
-
-        if (!titre) return;
-
-        const placesRestantes = parseInt(places, 10);
-
-        if (statut && statut.toLowerCase() === "complet") return;
-        if (!placesRestantes || placesRestantes <= 0) return;
-
-        ateliersDisponibles++;
-
-        const valeur = `${titre}|||${date}|||${heure}`;
-
-        const card = document.createElement("div");
-        card.className = "card";
-
-        card.innerHTML = `
-          <h3>${titre}</h3>
-          <p>📅 ${date}</p>
-          <p>🕒 ${heure}</p>
-          <p>${duree} — ${prix}</p>
-          <p>Places restantes : ${placesRestantes}</p>
-          <a href="#reservation" class="btn" onclick="choisirAtelier('${valeur}')">Réserver</a>
-        `;
-
-        container.appendChild(card);
-
-        const option = document.createElement("option");
-        option.value = valeur;
-        option.textContent = `${titre} - ${date} ${heure}`;
-        select.appendChild(option);
-      });
-
-      if (ateliersDisponibles === 0) {
-        container.innerHTML = "<p>Aucun atelier disponible pour le moment.</p>";
-      }
-
-    } catch (error) {
-      container.innerHTML = "<p>Les ateliers seront bientôt disponibles.</p>";
-    }
-  }
-
-  function choisirAtelier(valeur) {
-    const select = document.getElementById("atelier-select");
-    select.value = valeur;
-    remplirChampsAtelier(valeur);
-  }
-
-  function remplirChampsAtelier(valeur) {
-    const morceaux = valeur.split("|||");
-
-    document.getElementById("champ-titre").value = morceaux[0] || "";
-    document.getElementById("champ-date").value = morceaux[1] || "";
-    document.getElementById("champ-heure").value = morceaux[2] || "";
-  }
-
-  document.getElementById("atelier-select").addEventListener("change", function() {
-    remplirChampsAtelier(this.value);
-  });
-
-  const form = document.getElementById("formulaire");
-  const bouton = document.getElementById("bouton-submit");
-
-  form.addEventListener("submit", async function(event) {
-    event.preventDefault();
-
-    bouton.disabled = true;
-    bouton.textContent = "Envoi en cours...";
-
-    const data = new FormData(form);
-
-    try {
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: data,
-        mode: "no-cors"
-      });
-
-      window.location.href = "/merci.html";
-
-    } catch (error) {
-      alert("Erreur réseau. Merci de réessayer.");
-      bouton.disabled = false;
-      bouton.textContent = "Envoyer ma demande";
-    }
-  });
-
-  chargerAteliers();
-</script>
 
 </body>
 </html>
